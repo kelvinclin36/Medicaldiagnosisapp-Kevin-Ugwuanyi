@@ -1,0 +1,275 @@
+using Medicaldiagnosisapp.Model;
+using System;
+using System.Collections.Generic;
+using System.Ling;
+using System.Web;
+using System.Web.Mvc;
+using System.Text.Encodings.Web;
+
+namespace Medicaldiagnosisapp.Controllers;
+
+public class Homecontroller : Controller
+{
+private medicalDBEtities_db = new medicalDBEntities()
+    // 
+    // GET: /Home/
+    public Actionsresult Index()
+    {
+        return view(_db.medical.Tolist())";
+    }
+    // 
+    // GET: /Home details/ 
+    public Actionsresult Details(int id)
+    {
+        return view();
+    }
+
+public Actionsresult Details(int id FormCollection collection)
+{
+try 
+{ 
+  RedirectToAction("Index");
+}
+catch
+ { 
+return view()
+ }
+}
+//GET
+   public Actionsresult create(int id)
+    {
+        return view();
+    }
+//http post home/create
+public Actionsresult create([Bind(Exclude ="Id")] Patient.PatientToCreate)
+{
+if(!Modelstate.IsValid)
+  return view();
+_db.Patient.Add(PatientToCreate);
+_db.SaveChanges();
+
+return RedirectToAction("Index");
+  }
+
+Public Actionsresult edit(int id)
+ {
+var MedicalToedit = (from p in _db.Medical
+                     where p.id ==id
+                     select p.First();
+  return view(MedicalToedit);
+}
+  public Actionsresult edit(Medical.medicalToedit)
+{
+ var originalMedical =(from p in _db.Medicals where p.Id ==medicalToedit.Id
+                       select p).First();
+if (!ModelState.IsValid)
+   return View(originalMedical);
+_db.Entry(originalMedical).CurrentValuesSetValues(medicalToedit());
+_db.SaveChanges();
+ return RedirectToAction("Index");
+}
+
+}
+  public Actionsresult update(int id)
+    {
+        return view();
+    }
+public Actionsresult edit(int id FormCollection collection)
+{
+try 
+{ 
+  RedirectToAction("Index");
+}
+catch
+{ 
+ return view();
+ }
+}
+  public Actionsresult delete(int id)
+    {
+        return view();
+    }
+
+public Actionsresult Delete(int id FormCollection collection)
+{
+try 
+{ 
+  RedirectToAction("Index");
+}
+catch
+{ 
+
+return view();
+ }
+}
+
+
+
+
+
+
+
+index.cshtml
+
+@model IEnumerable<Medicaldiagnosisapp.Models.medical>
+ @{ 
+    viewBag.Title ="Index";
+}
+<h2>Index</h2>
+<p>
+@Html.ActionLink("Create New", "Create")
+
+</P>
+<table class ="table"
+<tr>
+  <th>  
+   @Html.DisplayNameFor(model => model.PatientName)
+</th>
+<th>
+@Html.DisplayNameFor(model => model.Age)
+</th>
+
+<th>
+@Html.DisplayNameFor(model => model.Visitdate)
+</th>
+<th>
+@Html.DisplayNameFor(model => model.Weight)
+</th>
+<th>
+@Html.DisplayNameFor(model => model.Height)
+</th>
+
+<th>
+@Html.DisplayNameFor(model => model.Bloodpressure)
+</th>
+
+<th>
+@Html.DisplayNameFor(model => model.Initialdiagnosisresult)
+</th>
+
+<th>
+@Html.DisplayNameFor(model => model.Nextappointment)
+</th> 
+<th></th>
+
+@foreach (var item in Model) {
+<tr>
+<td>
+  @Html.DisplyFor(modelItem => item.PatientName)
+</td)
+
+<td>
+  @Html.DisplyFor(modelItem => item.Age)
+</td)
+
+<td>
+  @Html.DisplyFor(modelItem => item.Visitdate)
+</td)
+<td>
+  @Html.DisplyFor(modelItem => item.Weight)
+</td)
+
+<td>
+  @Html.DisplyFor(modelItem => item.Height)
+</td)
+<td>
+  @Html.DisplyFor(modelItem => item.Bloodpressure)
+</td)
+
+<td>
+  @Html.DisplyFor(modelItem => item.Initialdiagnosisresult)
+</td)
+<td>
+  @Html.DisplyFor(modelItem => item.Nextappiontment)
+</td)
+<td>
+@HtmlActionLink("Edit", "Edit", new { id =item.Id }
+@HtmlActionLink("Details", "Details", new { id =item.Id }
+@HtmlActionLink("Delete", "Delete", new { id =item.Id } )
+@HtmlActionLink("Update", "Update", new { id =item.Id })
+
+</td>
+</tr>
+</table>
+
+Create.cshtml
+
+@model.Medicaldiagnosisapp.Models.Medical
+
+@{
+    ViewBag.Title ="create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+ @Html.AntiForgeryToken()
+
+ <div clastal" ="form-horizontal">
+ <h4>Medical</h4>
+<hr />
+@Html.ValidationSummary(true, "", new { @class = "text-danger"})
+<div class ="form-group">
+@Html.LabelFor(model => model.PatientName, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.PatientName, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+
+<div class ="form-group">
+@Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Age, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+<div class ="form-group">
+@Html.LabelFor(model => model.Visitdate, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Visitdate, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+
+<div class ="form-group">
+@Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Weight, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+
+<div class ="form-group">
+@Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Height, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+
+<div class ="form-group">
+@Html.LabelFor(model => model.Bloodpressure, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Bloodpressure, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+
+
+<div class ="form-group">
+@Html.LabelFor(model => model.Initialdiagnosisresult htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Initialdiagnosisresult, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+<div class ="form-group">
+@Html.LabelFor(model => model.Nextappointment, htmlAttributes: new { @class = "control-label col -md-2"})
+<div class="col-md-10">
+    @Html.EditorFor(mode => model.Nextappointment, new {htmlAttributes = new { @class = "form-control" })
+   @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger"})
+</div>
+</div>
+
